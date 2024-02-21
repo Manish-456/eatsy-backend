@@ -2,12 +2,11 @@
   "name": "eatsy-backend",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "main": "./src/index.ts",
   "scripts": {
     "dev": "nodemon",
     "build": "npm install && npx tsc",
-    "start": "node dist/index.js"
+    "start": "npx ts-node dist/index.js"
   },
   "author": "Manish Tamang",
   "license": "ISC",
