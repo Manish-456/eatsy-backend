@@ -2,10 +2,7 @@
   "name": "eatsy-backend",
   "version": "1.0.0",
   "description": "",
-<<<<<<< HEAD
   "type": "module",
-=======
->>>>>>> f4ccfb3b2f1bbaa7556e9dba9067ba4cd79ac372
   "main": "./src/index.ts",
   "scripts": {
     "dev": "nodemon",
