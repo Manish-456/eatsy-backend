@@ -5,6 +5,6 @@ import { jwtCheck, jwtParse } from '../middleware/auth';
 const router = express.Router();
 
 router.post('/', jwtCheck, UserController.createUser);
-router.put('/', jwtParse, UserController.updateUser);
+router.put('/', jwtCheck, jwtParse, UserController.updateUser);
 
 export default router;
