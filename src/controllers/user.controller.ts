@@ -13,13 +13,36 @@ const createUser = async (req: Request, res: Response) => {
 
         return res.status(201).json(newUser.toObject());
     } catch (error) {
-        console.error(error);
         return res.status(500).json({
             message: "Failed to create user"
         })
     }
 }
 
+const updateUser = async (req: Request, res: Response) => {
+    try {
+        const { name, addressLine1, country, city } = req.body;
+        const user = await User.findById(req.userId);
+
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        user.name = name;
+        user.addressLine1 = addressLine1;
+        user.country = country;
+        user.city = city;
+        
+        await user.save();
+
+        return res.json(user);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: "Failed to update user"
+        })
+    }
+}
+
 export default {
-    createUser
+    createUser,
+    updateUser
 }
