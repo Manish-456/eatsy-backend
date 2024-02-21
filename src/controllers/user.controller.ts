@@ -30,7 +30,7 @@ const updateUser = async (req: Request, res: Response) => {
         user.addressLine1 = addressLine1;
         user.country = country;
         user.city = city;
-        
+
         await user.save();
 
         return res.json(user);
@@ -41,8 +41,22 @@ const updateUser = async (req: Request, res: Response) => {
         })
     }
 }
+const getCurrentUser = async (req: Request, res: Response) => {
+    try {
+        const user = await User.findById(req.userId);
+
+        if (!user) return res.status(404).json({ message: "User not found" });
+        return res.json(user);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: "Something went wrong"
+        })
+    }
+}
 
 export default {
     createUser,
-    updateUser
+    updateUser,
+    getCurrentUser
 }
