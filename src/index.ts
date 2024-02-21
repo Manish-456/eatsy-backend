@@ -1,8 +1,9 @@
 import "dotenv/config";
 import express, { Request, Response } from "express";
 import cors from "cors";
-import Database from "./config/database";
 
+import Database from "./config/database";
+import userRoute from './routes/user.route';
 const app = express();
 const PORT = process.env.PORT || 8080
 
@@ -18,6 +19,8 @@ app.get("/test", (req: Request, res: Response) => {
         message: "Hello!"
     })
 })
+
+app.use("/api/user", userRoute);
 
 process.on("SIGINT", async () => {
     try {
