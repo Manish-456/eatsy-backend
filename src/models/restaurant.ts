@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 
-
-
 const restaurantSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -35,7 +33,9 @@ const restaurantSchema = new mongoose.Schema({
     ],
     imageUrl: {
         type: String,
-        required: true
+    },
+    publicId: {   //get from Cloudinary
+        type: String 
     }
 },
     {

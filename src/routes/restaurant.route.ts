@@ -15,6 +15,7 @@ const upload = multer({
     }
 });
 
+router.get('/', jwtCheck, jwtParse, RestaurantController.getMyRestaurant);
 router.post('/', 
 jwtCheck, 
 jwtParse, 
@@ -22,5 +23,7 @@ upload.single("imageFile"),
 validateRestaurantRequest,
 RestaurantController.createRestaurant
 )
+router.put(`/`, jwtCheck, jwtParse, upload.single("imageFile"), validateRestaurantRequest, RestaurantController.updateMyRestaurant);
+router.delete('/remove-image', jwtCheck, jwtParse, RestaurantController.removeRestaurantImage)
 
 export default router;
