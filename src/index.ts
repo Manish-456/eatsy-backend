@@ -5,7 +5,7 @@ import { v2 as cloudinary } from 'cloudinary'
 
 import Database from "./config/database";
 import userRoute from './routes/user.route';
-import restaurantRoute from './routes/restaurant.route';
+import restaurantRoute from './routes/myRestaurant.route';
 
 const app = express();
 const PORT = process.env.PORT || 8080
