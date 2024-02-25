@@ -5,16 +5,17 @@ import { v2 as cloudinary } from 'cloudinary'
 
 import Database from "./config/database";
 import userRoute from './routes/user.route';
-import restaurantRoute from './routes/myRestaurant.route';
+import restaurantRoute from "./routes/restaurant.route";
+import myRestaurantRoute from './routes/myRestaurant.route';
 
 const app = express();
 const PORT = process.env.PORT || 8080
 
-cloudinary.config({ 
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
-    api_key: process.env.CLOUDINARY_API_KEY, 
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET
-  });
+});
 
 const db = new Database(process.env.DATABASE_URL!)
 
@@ -30,7 +31,8 @@ app.get("/health", (req: Request, res: Response) => {
 })
 
 app.use("/api/user", userRoute);
-app.use("/api/restaurant", restaurantRoute);
+app.use("/api/restaurant", restaurantRoute)
+app.use("/api/my/restaurant", myRestaurantRoute);
 
 process.on("SIGINT", async () => {
     try {
