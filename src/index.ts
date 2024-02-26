@@ -7,6 +7,7 @@ import Database from "./config/database";
 import userRoute from './routes/user.route';
 import restaurantRoute from "./routes/restaurant.route";
 import myRestaurantRoute from './routes/myRestaurant.route';
+import orderRoute from './routes/order.route';
 
 const app = express();
 const PORT = process.env.PORT || 8080
@@ -33,6 +34,7 @@ app.get("/health", (req: Request, res: Response) => {
 app.use("/api/user", userRoute);
 app.use("/api/restaurant", restaurantRoute)
 app.use("/api/my/restaurant", myRestaurantRoute);
+app.use("/api/order", orderRoute);
 
 process.on("SIGINT", async () => {
     try {

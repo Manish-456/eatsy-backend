@@ -1,4 +1,7 @@
-import mongoose from "mongoose";
+import mongoose, { InferSchemaType } from "mongoose";
+import { Document } from "mongoose";
+
+
 
 const menuItemSchema = new mongoose.Schema({
     name: {
@@ -16,5 +19,11 @@ const menuItemSchema = new mongoose.Schema({
     }
 })
 
-const MenuItem = mongoose.model( 'MenuItem', menuItemSchema);
+export interface MenuItemType extends Document {
+    name:  string;
+    price: number;
+    restaurantId: string;
+ }
+
+const MenuItem = mongoose.model<MenuItemType>('MenuItem', menuItemSchema);
 export default MenuItem;
