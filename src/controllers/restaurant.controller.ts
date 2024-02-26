@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Restaurant from "../models/restaurant";
+import MenuItem from "../models/menu-item";
 
 const searchRestaurant = async (req: Request, res: Response) => {
     try {
@@ -73,6 +74,35 @@ const searchRestaurant = async (req: Request, res: Response) => {
     }
 };
 
+const getRestaurantDetails = async(req: Request, res: Response) => {
+    try {
+        const restaurantId = req.params.restaurantId;
+
+        const restaurant = await Restaurant.findById(restaurantId)
+
+        if (!restaurant) {
+            return res.status(404).json({
+                message: "Restaurant not found"
+            })
+        };
+
+        const menuItems = await MenuItem.find({
+            restaurantId: restaurant._id
+        }).select('-restaurantId -__v');
+
+        return res.json({
+            restaurant,
+            menuItems
+        })
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: `Failed to get restaurant details`
+        })
+    }
+}
+
 export default {
-    searchRestaurant
+    searchRestaurant,
+    getRestaurantDetails
 }

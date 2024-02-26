@@ -125,7 +125,7 @@ const removeRestaurantImage = async (req: Request, res: Response) => {
 
 const updateMyRestaurant = async (req: Request, res: Response) => {
     try {
-        const { name, city, country, deliveryPrice, estimatedDeliveryTime, cuisines, menuItems } = req.body;
+        const { name, city, country, deliveryPrice, description, estimatedDeliveryTime, cuisines } = req.body;
         const restaurant = await Restaurant.findOne({
             user: req.userId
         });
@@ -137,6 +137,7 @@ const updateMyRestaurant = async (req: Request, res: Response) => {
         restaurant.deliveryPrice = deliveryPrice;
         restaurant.estimatedDeliveryTime = estimatedDeliveryTime;
         restaurant.cuisines = cuisines;
+        restaurant.description = description;
 
         if (req.file) {
             const uploadResponse = await uploadImage(req.file)
