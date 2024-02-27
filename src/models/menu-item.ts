@@ -1,13 +1,9 @@
-import mongoose, { InferSchemaType } from "mongoose";
-import { Document } from "mongoose";
-
-
+import mongoose, { Document } from "mongoose";
 
 const menuItemSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        unique: true
     },
     price: {
         type: Number,

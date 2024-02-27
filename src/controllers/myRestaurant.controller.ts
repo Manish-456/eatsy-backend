@@ -150,7 +150,7 @@ const updateMyRestaurant = async (req: Request, res: Response) => {
         if (req.body.menuItems) {
             const menuItemPromises = req.body.menuItems.map(async (menuItem: MenuItemProps) => {
                 const existingMenuItem = await MenuItem.findOne({ _id: menuItem._id, restaurantId: restaurant._id });
-
+                
                 if (existingMenuItem) {
                     existingMenuItem.name = menuItem.name,
                     existingMenuItem.price = menuItem.price
@@ -177,7 +177,7 @@ const updateMyRestaurant = async (req: Request, res: Response) => {
         return res.json(restaurant);
 
     } catch (error) {
-        console.error(error);
+        console.error(`UPDATION`, error);
         return res.status(500).json({
             message: "Failed to update restaurant"
         })
