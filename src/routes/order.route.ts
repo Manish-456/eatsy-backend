@@ -1,9 +1,11 @@
 import express from 'express';
 import { jwtCheck, jwtParse } from '../middleware/auth';
-import orderController from '../controllers/order.controller';
+import OrderController from '../controllers/order.controller';
 
 const router = express.Router();
 
-router.post('/checkout/create-checkout-session', jwtCheck, jwtParse, orderController.createCheckoutSession);
-router.post('/checkout/webhook', orderController.stripeWebhookHandler)
+router.get('/', jwtCheck, jwtParse, OrderController.getMyOrders);
+
+router.post('/checkout/create-checkout-session', jwtCheck, jwtParse, OrderController.createCheckoutSession);
+router.post('/checkout/webhook', OrderController.stripeWebhookHandler)
 export default router;
