@@ -24,6 +24,7 @@ upload.single("imageFile"),
 validateRestaurantRequest,
 RestaurantController.createRestaurant
 )
+router.patch('/order/:orderId/status', jwtCheck, jwtParse, RestaurantController.updateOrderStatus);
 router.put(`/`, jwtCheck, jwtParse, upload.single("imageFile"), validateRestaurantRequest, RestaurantController.updateMyRestaurant);
 router.delete('/remove-image', jwtCheck, jwtParse, RestaurantController.removeRestaurantImage)
 
