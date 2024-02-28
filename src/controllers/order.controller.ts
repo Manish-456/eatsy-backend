@@ -28,7 +28,9 @@ const getMyOrders = async (req: Request, res: Response) => {
     try {
         const orders = await Order.find({
             user: req.userId
-        }).populate("restaurant").populate("user");
+        }).populate("restaurant").populate("user").sort({
+            createdAt: "desc"
+        });
 
         return res.status(200)
             .json(orders);
