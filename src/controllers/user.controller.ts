@@ -35,7 +35,6 @@ const updateUser = async (req: Request, res: Response) => {
 
         return res.json(user);
     } catch (error) {
-        console.error(error);
         return res.status(500).json({
             message: "Failed to update user"
         })
@@ -48,7 +47,6 @@ const getCurrentUser = async (req: Request, res: Response) => {
         if (!user) return res.status(404).json({ message: "User not found" });
         return res.json(user);
     } catch (error) {
-        console.error(error);
         return res.status(500).json({
             message: "Something went wrong"
         })

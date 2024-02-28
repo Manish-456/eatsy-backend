@@ -67,7 +67,6 @@ const searchRestaurant = async (req: Request, res: Response) => {
 
         return res.json(response);
     } catch (error) {
-        console.error(error);
         return res.status(500).json({
             message: `Something went wrong`
         })
@@ -95,7 +94,6 @@ const getRestaurantDetails = async(req: Request, res: Response) => {
             menuItems
         })
     } catch (error) {
-        console.error(error);
         return res.status(500).json({
             message: `Failed to get restaurant details`
         })

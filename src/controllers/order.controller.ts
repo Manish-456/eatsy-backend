@@ -34,7 +34,6 @@ const getMyOrders = async (req: Request, res: Response) => {
             .json(orders);
 
     } catch (error) {
-        console.error(error);
         res.status(500).json({
             message: "Something went wrong"
         })
@@ -106,7 +105,6 @@ const createCheckoutSession = async (req: Request, res: Response) => {
         });
 
     } catch (error: any) {
-        console.error(error);
         return res.status(500).json({
             message: error.raw.message
         })

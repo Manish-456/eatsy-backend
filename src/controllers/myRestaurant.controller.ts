@@ -60,7 +60,6 @@ const createRestaurant = async (req: Request, res: Response) => {
         })
 
     } catch (error) {
-        console.error(error);
         return res.status(500).json({
             message: "Error creating restaurant"
         })
@@ -81,7 +80,6 @@ const getMyRestaurant = async (req: Request, res: Response) => {
 
         return res.status(200).json({ restaurant, menuItems });
     } catch (error) {
-        console.error(error);
         return res.status(500).json({
             message: "Error fetching restaurant"
         })
@@ -115,7 +113,6 @@ const removeRestaurantImage = async (req: Request, res: Response) => {
 
         return res.sendStatus(204);
     } catch (error) {
-        console.error(error);
         return res.status(500).json({
             message: "Error deleting image"
         })
@@ -178,7 +175,6 @@ const updateMyRestaurant = async (req: Request, res: Response) => {
         return res.json(restaurant);
 
     } catch (error) {
-        console.error(error);
         return res.status(500).json({
             message: "Failed to update restaurant"
         })
@@ -202,7 +198,6 @@ const getMyRestaurantOrder = async (req: Request, res: Response) => {
         return res.json(orders);
 
     } catch (error) {
-        console.error(error);
         return res.status(500).json({
             message: "Something went wrong"
         })
@@ -238,7 +233,6 @@ const updateOrderStatus = async (req: Request, res: Response) => {
 
         return res.json(order)
     } catch (error) {
-        console.error(error);
         return res.status(500).json({
             message: "Failed to update order status"
         })
@@ -279,7 +273,6 @@ export const removeMenuItem = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        console.error(error);
         return res.status(500).json({
             message: "Failed to remove menu"
         })
