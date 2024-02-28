@@ -151,10 +151,10 @@ const updateMyRestaurant = async (req: Request, res: Response) => {
         if (req.body.menuItems) {
             const menuItemPromises = req.body.menuItems.map(async (menuItem: MenuItemProps) => {
                 const existingMenuItem = await MenuItem.findOne({ _id: menuItem._id, restaurantId: restaurant._id });
-                
+
                 if (existingMenuItem) {
                     existingMenuItem.name = menuItem.name,
-                    existingMenuItem.price = menuItem.price
+                        existingMenuItem.price = menuItem.price
                     return existingMenuItem.save();
                 } else {
                     const newMenuItem = new MenuItem({
@@ -185,64 +185,105 @@ const updateMyRestaurant = async (req: Request, res: Response) => {
     }
 }
 
-const getMyRestaurantOrder = async(req: Request, res: Response) => {
-   try {
-    const restaurant = await Restaurant.findOne({
-        user: req.userId
-    });
+const getMyRestaurantOrder = async (req: Request, res: Response) => {
+    try {
+        const restaurant = await Restaurant.findOne({
+            user: req.userId
+        });
 
-    if(!restaurant) return res.status(404).json({
-        message: "Restaurant not found"
-    });
+        if (!restaurant) return res.status(404).json({
+            message: "Restaurant not found"
+        });
 
-    const orders = await Order.find({
-        restaurant: restaurant._id
-    }).populate("restaurant").populate("user");
+        const orders = await Order.find({
+            restaurant: restaurant._id
+        }).populate("restaurant").populate("user");
 
-    return res.json(orders);
+        return res.json(orders);
 
-   } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-        message: "Something went wrong"
-    })
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: "Something went wrong"
+        })
 
-   }
+    }
 }
 
-const updateOrderStatus = async(req: Request, res: Response) => {
-try {
-     const { orderId } = req.params;
-     const { status } = req.body;
-     
-     const order = await Order.findById(orderId);
-     if(!order)  return res.status(404).json({
-        message: "Order not found"
-     });
-    
-     const restaurant = await Restaurant.findById(order.restaurant);
-    
-     if(restaurant?.user?._id.toString() !== req.userId){
-        return res.status(401).send()
-     }
+const updateOrderStatus = async (req: Request, res: Response) => {
+    try {
+        const { orderId } = req.params;
+        const { status } = req.body;
 
-     if(status === "delivered"){
-      await Order.findByIdAndDelete(orderId);
-      return res.json({
-        message: "Order is successfully delivered"
-      })
-     }
-     
-     order.status = status;
-     await order.save();
-    
-     return res.json(order)
-} catch (error) {
-    console.error(error);
-    return res.status(500).json({
-        message: "Failed to update order status"
-    })
+        const order = await Order.findById(orderId);
+        if (!order) return res.status(404).json({
+            message: "Order not found"
+        });
+
+        const restaurant = await Restaurant.findById(order.restaurant);
+
+        if (restaurant ?.user ?._id.toString() !== req.userId) {
+            return res.status(401).send()
+        }
+
+        if (status === "delivered") {
+            await Order.findByIdAndDelete(orderId);
+            return res.json({
+                message: "Order is successfully delivered"
+            })
+        }
+
+        order.status = status;
+        await order.save();
+
+        return res.json(order)
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: "Failed to update order status"
+        })
+    }
 }
+
+export const removeMenuItem = async (req: Request, res: Response) => {
+    try {
+        const { menuItemId } = req.params;
+        const userId = req.userId
+
+        const existingRestaurant = await Restaurant.findOne({
+            user: userId
+        });
+
+        if (!existingRestaurant) {
+            return res.status(404).json({
+            message: "Restaurant not found"
+        });
+    }
+        const matchingOrder = await Order.findOne({
+            cartItems: {
+                $elemMatch: {
+                    menuItemId
+                }
+            }
+        });
+
+        if (matchingOrder){ 
+            return res.status(400).json({
+            message: "Can't remove this menu. It has been ordered."
+        });
+    }
+        await MenuItem.findByIdAndDelete(menuItemId);
+
+        return res.status(200).json({
+            message: "Menu Removed"
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: "Failed to remove menu"
+        })
+    }
 }
 
 export default {
@@ -251,5 +292,6 @@ export default {
     removeRestaurantImage,
     updateMyRestaurant,
     getMyRestaurantOrder,
-    updateOrderStatus
+    updateOrderStatus,
+    removeMenuItem
 }
