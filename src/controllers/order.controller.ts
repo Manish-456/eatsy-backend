@@ -80,6 +80,8 @@ const createCheckoutSession = async (req: Request, res: Response) => {
 
         if (!restaurant) throw new Error("Restaurant not found");
 
+        if (restaurant.user ?.toString() === req.userId) throw new Error("You cannot make a payment for your own restaurant");
+
         const menuItems = await MenuItem.find({
             restaurantId: restaurant._id
         })
