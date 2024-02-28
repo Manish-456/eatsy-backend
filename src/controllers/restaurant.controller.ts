@@ -52,7 +52,9 @@ const searchRestaurant = async (req: Request, res: Response) => {
 
         const restaurants = await Restaurant.find(query).sort({
             [sortOption]: 1
-        }).skip(skip).limit(pageSize).lean();
+        }).skip(skip).limit(pageSize).sort({
+            createdAt:  "desc"
+        }).lean();
 
         const total = await Restaurant.countDocuments(query);
 
